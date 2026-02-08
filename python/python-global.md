@@ -1,30 +1,27 @@
 ---
-name: PyProjectStandard
-description: Optimized Python 3.12+ development with Ruff, FastAPI, and Git safety.
-globs: ["**/*.py"]
+name: PyProjectMaster
+globs: ["**/*.py", "pyproject.toml"]
 alwaysApply: true
 ---
-# Git & Workflow
-- **Branching**: All edits MUST occur on `dev` branch. Create `dev` if missing. Never edit `main` directly.
-- **Commits**: Auto-commit after every discrete change. Format: `[Category] Human-readable fix/feat #metadata`.
-- **History**: Maintain `src/[module]/ai_usage.md` with a bulleted "Change History" per edit.
+# Git Workflow
+- Branch: `dev` only. Create if missing. No direct `main` edits
+- Commits: Auto-commit per change. Format: `[Category] Fix/Feat #metadata`
+- History: Log updates in `src/[module]/ai_usage.md`
 
-# Architecture & File Mapping
-- **Root**: All source code strictly in `src/`.
-- **Constants**: Map to `src/constants.py`.
-- **Validation**: Pydantic v2 models in `src/models.py`.
-- **Database**: Schemas/Definitions in `src/schemas.py`.
-- **Organization**: Max 600 lines/module. Identical Model/DB field names.
+# Architecture & Packaging
+- Layout: Root `src/`. Constants `constants.py`. Models `models.py`. DB `schemas.py`
+- Packaging: Use `setuptools.build_meta`. Deps in `[project].dependencies`
+- Install: `pip install -e .` for dev. Use "Bundle" VS Code task for builds
+- Rules: Max 600 lines/module. Identical Model/DB field names. Python 3.12+
 
-# Python Logic & Style
-- **Efficiency**: Compact code only. **Zero unnecessary boilerplate.**
-- **Anti-Patterns**: No cascading function calls without clear logic separation. No "clean code" abstractions that add complexity without value.
-- **Core Stack**: Python 3.12+; FastAPI (OpenAPI.json); FastMCP (Agents); `asyncio`.
-- **Metadata**: Create `ai_usage.md` for every module to track tool-specific context.
+# Logic & Style
+- Efficiency: Compact code. No boilerplate. No cascading calls
+- Simplicity: Avoid abstractions without value. Clear logic separation
+- History: Module-level `ai_usage.md` for tool context
 
-# Quality Control (Ruff & Testing)
-- **Linting**: Strict **Ruff** enforcement. Run `ruff check --fix` and `ruff format` before declaring a task finished.
-- **Docs**: Descriptive Class docstrings; mandatory input/output types for public methods.
-- **Observability**: Mandatory structured logging & specific error handling.
-- **CRUD**: Auto-generate CRUD ops + CRUD tests for every new module.
-- **Testing**: Use `tests/mock` and `tests/real` folders. Check for existing tests before creation.
+# Quality & Test
+- Lint: Strict Ruff (`ruff check --fix` + `ruff format`) before finish
+- Docs: Class docstrings + mandatory input/output types
+- CRUD: Auto-gen CRUD + tests for new modules
+- Tests: Use `tests/mock` or `tests/real`. Check existing first
+- Observability: Structured logging + specific error handling required
